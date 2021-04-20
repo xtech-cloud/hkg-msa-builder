@@ -1,1 +1,2 @@
-# hkg-msa-builder
+# hkg-msa-collector
+HybridKG - Collector
