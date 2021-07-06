@@ -18,7 +18,7 @@ type Pattern struct {
 	To   string   `json:"to"`
 }
 
-func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeRequest, _rsp *proto.BlankResponse) error {
+func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeRequest, _rsp *proto.DocumentMergeResponse) error {
 	logger.Infof("Received Document.Merge, req is %v,%v", _req.Name, _req.Label)
 
 	_rsp.Status = &proto.Status{}
@@ -83,6 +83,7 @@ func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeReque
 	}
 	dao := model.NewDocumentDAO(nil)
 	err = dao.UpsertOne(document)
+    _rsp.Uuid = document.ID
 	return err
 }
 
@@ -123,6 +124,24 @@ func (this *Document) List(_ctx context.Context, _req *proto.ListRequest, _rsp *
 		}
 	}
 	return nil
+}
+
+func (this *Document) Delete(_ctx context.Context, _req *proto.DocumentDeleteRequest, _rsp *proto.DocumentDeleteResponse) error {
+	logger.Infof("Received Document.Delete, req is %v", _req)
+
+	_rsp.Status = &proto.Status{}
+    _rsp.Uuid = _req.Uuid
+	dao := model.NewDocumentDAO(nil)
+    return dao.DeleteOne(_req.Uuid)
+}
+
+func (this *Document) BatchDelete(_ctx context.Context, _req *proto.DocumentBatchDeleteRequest, _rsp *proto.DocumentBatchDeleteResponse) error {
+	logger.Infof("Received Document.BatchDelete, req is %v", _req)
+
+	_rsp.Status = &proto.Status{}
+    _rsp.Uuid = _req.Uuid
+	dao := model.NewDocumentDAO(nil)
+    return dao.DeleteMany(_req.Uuid)
 }
 
 func (this *Document) parse(_k string, _v interface{}, _output map[string]interface{}, _patterns map[string]string) {

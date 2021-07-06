@@ -19,7 +19,7 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/temoto/robotstxt v1.1.2 // indirect
-	github.com/xtech-cloud/hkg-msp-builder v0.1.0
+	github.com/xtech-cloud/hkg-msp-builder v1.0.0
 	go.mongodb.org/mongo-driver v1.5.0
 	google.golang.org/genproto v0.0.0-20191216164720-4f79533eabd1
 	gopkg.in/yaml.v2 v2.4.0

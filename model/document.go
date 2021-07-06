@@ -129,3 +129,21 @@ func (this *DocumentDAO) FindOne(_id string) (*Document, error) {
 	err := res.Decode(&document)
 	return &document, err
 }
+
+func (this *DocumentDAO) DeleteOne(_id string) (error) {
+	ctx, cancel := NewContext()
+	defer cancel()
+
+	filter := bson.D{{"_id", _id}}
+	_, err := this.conn.DB.Collection(DocumentCollectionName).DeleteOne(ctx, filter)
+	return err
+}
+
+func (this *DocumentDAO) DeleteMany(_id []string) (error) {
+	ctx, cancel := NewContext()
+	defer cancel()
+
+    filter := bson.M{"_id": bson.M{"$in": _id}}
+	_, err := this.conn.DB.Collection(DocumentCollectionName).DeleteMany(ctx, filter)
+	return err
+}

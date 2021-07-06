@@ -491,6 +491,8 @@ github.com/xeipuuv/gojsonschema v1.1.0/go.mod h1:5yf86TLmAcydyeJq5YvxkGPE2fm/u4m
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xtech-cloud/hkg-msp-builder v0.1.0 h1:oe0R3kmnNMlmuZrsrdKblioI1z6I+iBRc25cHU9Yums=
 github.com/xtech-cloud/hkg-msp-builder v0.1.0/go.mod h1:wgCkVzr7fHxPtVckssEMHlMNdIC8wZw9imcahcLv4BQ=
+github.com/xtech-cloud/hkg-msp-builder v1.0.0 h1:NguXYDkd0QUYoSGmzflWzL6WjUGp0lB0AATYZ2/RA2E=
+github.com/xtech-cloud/hkg-msp-builder v1.0.0/go.mod h1:wgCkVzr7fHxPtVckssEMHlMNdIC8wZw9imcahcLv4BQ=
 github.com/xtech-cloud/hkg-msp-collector v0.1.0 h1:/qqIxvmlHOL2dm+uD8LnauBjR9V5f96f3qzI712/x8s=
 github.com/xtech-cloud/hkg-msp-collector v0.1.0/go.mod h1:y+j4QU9E3cxhnmoRdxTUxGV3FiIMNREuYo+A9LDXpvE=
 github.com/xtech-cloud/hkg-msp-collector v0.2.0 h1:DxoP79LqAUqrdkLuDuSyVNntufqx7aI2hDq8GWU+XtQ=
