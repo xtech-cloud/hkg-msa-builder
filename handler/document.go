@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"hkg-msa-builder/model"
 	"time"
@@ -19,7 +20,7 @@ type Pattern struct {
 }
 
 func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeRequest, _rsp *proto.DocumentMergeResponse) error {
-	logger.Infof("Received Document.Merge, req is %v,%v", _req.Name, _req.Label)
+	logger.Infof("Received Document.Merge, req is %v, %v", _req.Name, _req.Label)
 
 	_rsp.Status = &proto.Status{}
 
@@ -35,7 +36,7 @@ func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeReque
 		return nil
 	}
 
-    //TODO 使用单独的参数传递融合策略（权重、AI等）
+	//TODO 使用单独的参数传递融合策略（权重、AI等）
 
 	var patterns []Pattern
 	err := json.Unmarshal([]byte(_req.Format), &patterns)
@@ -56,8 +57,17 @@ func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeReque
 
 	//TODO 将合并过程单独记录
 	for _, text := range _req.Text {
+        bytesText , err := base64.StdEncoding.DecodeString(text)
+		if err != nil {
+			logger.Error(err)
+            continue
+		}
 		var obj map[string]interface{}
-		err = json.Unmarshal([]byte(text), &obj)
+		err = json.Unmarshal(bytesText, &obj)
+		if err != nil {
+			logger.Error(err)
+            continue
+		}
 		for k, v := range obj {
 			this.parse(k, v, output, patternMap)
 		}
@@ -83,7 +93,7 @@ func (this *Document) Merge(_ctx context.Context, _req *proto.DocumentMergeReque
 	}
 	dao := model.NewDocumentDAO(nil)
 	err = dao.UpsertOne(document)
-    _rsp.Uuid = document.ID
+	_rsp.Uuid = document.ID
 	return err
 }
 
@@ -130,18 +140,18 @@ func (this *Document) Delete(_ctx context.Context, _req *proto.DocumentDeleteReq
 	logger.Infof("Received Document.Delete, req is %v", _req)
 
 	_rsp.Status = &proto.Status{}
-    _rsp.Uuid = _req.Uuid
+	_rsp.Uuid = _req.Uuid
 	dao := model.NewDocumentDAO(nil)
-    return dao.DeleteOne(_req.Uuid)
+	return dao.DeleteOne(_req.Uuid)
 }
 
 func (this *Document) BatchDelete(_ctx context.Context, _req *proto.DocumentBatchDeleteRequest, _rsp *proto.DocumentBatchDeleteResponse) error {
 	logger.Infof("Received Document.BatchDelete, req is %v", _req)
 
 	_rsp.Status = &proto.Status{}
-    _rsp.Uuid = _req.Uuid
+	_rsp.Uuid = _req.Uuid
 	dao := model.NewDocumentDAO(nil)
-    return dao.DeleteMany(_req.Uuid)
+	return dao.DeleteMany(_req.Uuid)
 }
 
 func (this *Document) parse(_k string, _v interface{}, _output map[string]interface{}, _patterns map[string]string) {
@@ -182,9 +192,9 @@ func (this *Document) parse(_k string, _v interface{}, _output map[string]interf
 			if _, found := _output[key]; found {
 				str, ok := _output[key].(string)
 				if ok {
-                    // 合并值不一样, 则追加到冲突列表中
+					// 合并值不一样, 则追加到冲突列表中
 					if str != strV {
-                        //TODO 处理冲突列表
+						//TODO 处理冲突列表
 					}
 				}
 			} else {
